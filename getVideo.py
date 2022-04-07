@@ -1,12 +1,21 @@
-import pafy
-import vlc
-import time
+from random import vonmisesvariate
+import youtube_dl
+import subprocess
 
-url = "https://www.youtube.com/watch?v=Yd5pYNxBhHg"
-video = pafy.new(url)
-best = video.getbest()
-media = vlc.MediaPlayer(best.url)
-length = int(video.duration.split(":")[0]) * 3600 + int(video.duration.split(":")[1]) * 60 + int(video.duration.split(":")[2])
+def downloadVideo(video_url):
+    video_info = youtube_dl.YoutubeDL().extract_info(url = video_url,download=False)
+    filename = f"{video_info['title']}.mp3"
+    options={
+        'format':'bestaudio/best',
+        'keepvideo':False,
+        'outtmpl':filename,
+    }
+    with youtube_dl.YoutubeDL(options) as ydl:
+        ydl.download([video_info['webpage_url']])
 
-media.play()
-time.sleep(length + 5)
+    print(f"Download complete... {filename}")
+
+def convertToWav(mp3_file_name, wav_output_name):
+    subprocess.call(['ffmpeg', '-i', mp3_file_name + ".mp3", wav_output_name + ".wav"])
+
+convertToWav("music/Meltt - Only In Your Eyes", "wav_music/Meltt - Only In Your Eyes")
