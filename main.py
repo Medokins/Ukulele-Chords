@@ -1,17 +1,17 @@
-from aubio import source, pitch
 import numpy as np
+from aubio import source, pitch
 
-win_s = 1010
-hop_s = 1000
-
+#most of this is sample code from aubio
+start_time = 1000
+end_time = 1010
 samplerate = 48000
 
-s = source("wav_music\Meltt - Only In Your Eyes.wav", samplerate, hop_s)
+s = source("wav_music\Meltt - Only In Your Eyes.wav", samplerate, start_time)
 samplerate = s.samplerate
 
 tolerance = 0.8
 
-pitch_o = pitch("yin", win_s, hop_s, samplerate)
+pitch_o = pitch("yin", end_time, start_time, samplerate)
 pitch_o.set_unit("midi")
 pitch_o.set_tolerance(tolerance)
 
@@ -26,6 +26,6 @@ while True:
     confidence = pitch_o.get_confidence()
     confidences += [confidence]
     total_frames += read
-    if read < hop_s: break
+    if read < start_time: break
 
 print("Average frequency = " + str(np.array(pitches).mean()) + " hz")
