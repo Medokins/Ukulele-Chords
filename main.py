@@ -10,17 +10,19 @@ RATE = wf.getframerate()
 window = np.blackman(chunk)
 p = pyaudio.PyAudio()
 stream = p.open(format =
-                p.get_format_from_width(wf.getsampwidth()),
+                p.get_format_from_width(swidth),
                 channels = wf.getnchannels(),
                 rate = RATE,
                 output = True)
 
 data = wf.readframes(chunk)
 
-while len(data) == chunk*swidth:
+print(len(data))
+print(chunk*swidth)
+
+while len(data) == chunk*swidth*2:
     stream.write(data)
-    indata = np.array(wave.struct.unpack("%dh"%(len(data)/swidth),\
-                                         data))*window
+    indata = np.array(wave.struct.unpack("%dh"%(len(data)/swidth), data*2))*window
     fftData=abs(np.fft.rfft(indata))**2
     which = fftData[1:].argmax() + 1
     if which != len(fftData)-1:
