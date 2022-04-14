@@ -1,31 +1,27 @@
 import numpy as np
-from aubio import source, pitch
+from scipy.fft import *
+from scipy.io import wavfile
 
-#most of this is sample code from aubio
-start_time = 1000
-end_time = 1010
-samplerate = 48000
 
-s = source("wav_music\Meltt - Only In Your Eyes.wav", samplerate, start_time)
-samplerate = s.samplerate
+def freq(file, start_time, end_time):
+    sr, data = wavfile.read(file)
+    if data.ndim > 1:
+        data = data[:, 0]
+    else:
+        pass
 
-tolerance = 0.8
+    dataToRead = data[int(start_time * sr / 1000) : int(end_time * sr / 1000) + 1]
 
-pitch_o = pitch("yin", end_time, start_time, samplerate)
-pitch_o.set_unit("midi")
-pitch_o.set_tolerance(tolerance)
+    N = len(dataToRead)
+    yf = rfft(dataToRead)
+    xf = rfftfreq(N, 1 / sr)
 
-pitches = []
-confidences = []
+    # Uncomment these to see the frequency spectrum as a plot
+    # plt.plot(xf, np.abs(yf))
+    # plt.show()
 
-total_frames = 0
-while True:
-    samples, read = s()
-    pitch = pitch_o(samples)[0]
-    pitches += [pitch]
-    confidence = pitch_o.get_confidence()
-    confidences += [confidence]
-    total_frames += read
-    if read < start_time: break
+    idx = np.argmax(np.abs(yf))
+    freq = xf[idx]
+    return freq
 
-print("Average frequency = " + str(np.array(pitches).mean()) + " hz")
+print(freq("wav_music/Meltt - Only In Your Eyes.wav", 0, 1000))
