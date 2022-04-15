@@ -1,7 +1,7 @@
 import librosa
 from getFrequency import freq
 from getVideo import downloadVideo, convertToWav
-from frequenctConverter import frequency_to_note
+from frequencyConverter import frequency_to_note
 
 download = False
 name = "Meltt - Only In Your Eyes"
