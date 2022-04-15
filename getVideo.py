@@ -8,11 +8,12 @@ def downloadVideo(video_url):
     options={
         'format':'bestaudio/best',
         'keepvideo':False,
-        'outtmpl':filename,
+        'outtmpl': f"music/{filename}",
     }
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
+
     return filename, duration
 
 def convertToWav(mp3_file_name, wav_output_name):
-    subprocess.call(['ffmpeg', '-i', mp3_file_name + ".mp3", wav_output_name + ".wav"])
+    subprocess.call(['ffmpeg', '-i', mp3_file_name, wav_output_name.replace(".mp3", "") + ".wav"])
