@@ -8,7 +8,7 @@ url = "https://www.youtube.com/watch?v=5Iwy_xeJi7c&ab_channel=sanah"
 frequency_table = []
 chords = []
 
-if len(url) > 0:
+if (len(url) > 0 and len(name) == 0):
     name, length = downloadVideo(url)
     convertToWav(f"music/{name}", f"wav_music/{name}")
     name = name.replace(".mp3", "")
