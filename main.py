@@ -3,18 +3,18 @@ from getFrequency import freq
 from getVideo import downloadVideo, convertToWav
 from frequencyConverter import frequency_to_note
 
-download = False
-name = "Meltt - Only In Your Eyes"
-url = ""
+name = "" #if You want to get chords from an existing file
+url = "https://www.youtube.com/watch?v=5Iwy_xeJi7c&ab_channel=sanah"
 frequency_table = []
 chords = []
 
-if download:
+if len(url) > 0:
     name, length = downloadVideo(url)
     convertToWav(f"music/{name}", f"wav_music/{name}")
+    name = name.replace(".mp3", "")
     name = f"wav_music/{name}.wav"
 else:
-    name = f"wav_music/{name}.wav"
+    name = f"wav_music/{name}.wav" 
     length = librosa.get_duration(filename=name)
 
 for i in range(int(length) - 1):
