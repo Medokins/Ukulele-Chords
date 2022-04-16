@@ -4,6 +4,7 @@ import subprocess
 def downloadVideo(video_url):
     video_info = youtube_dl.YoutubeDL().extract_info(url = video_url,download=False)
     filename = f"{video_info['title']}.mp3"
+    filename = filename.replace(":", "")
     duration = video_info['duration']
     options={
         'format':'bestaudio/best',
