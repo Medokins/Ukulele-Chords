@@ -1,6 +1,6 @@
 from PIL import Image
 
-def joinPngs(name1, name2, verboose = False):
+def joinPng(name1, name2, verboose = False):
     image1 = Image.open(f'chordsImages/{name1}.png')
     image2 = Image.open(f'chordsImages/{name2}.png')
 
