@@ -4,7 +4,7 @@ from getVideo import downloadVideo, convertToWav
 from frequencyConverter import frequency_to_note
 
 name = "" #if You want to get chords from an existing file
-url = "https://www.youtube.com/watch?v=5Iwy_xeJi7c&ab_channel=sanah"
+url = "https://www.youtube.com/watch?v=mDyxykpYeu8&ab_channel=FueledByRamen"
 frequency_table = []
 chords = []
 
@@ -19,6 +19,7 @@ else:
 
 for i in range(int(length) - 1):
     frequency = freq(name, i, i+1)
+    print(frequency)
     frequency_table.append(frequency)
     chords.append(frequency_to_note(frequency))
 
