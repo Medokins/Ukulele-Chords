@@ -1,31 +1,21 @@
 from PIL import Image
+import numpy as np
 
-def joinPngHorizontal(name1, name2, verboose = False):
-    image1 = Image.open(f'chordsImages/{name1}.png')
-    image2 = Image.open(f'chordsImages/{name2}.png')
+def joinHorizontal(chordsArray, row_number):
+    imgs = [Image.open(f"chordsImages/{elem}.png") for elem in chordsArray]
+    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+    imgs_comb = np.hstack(np.asarray(i.resize(min_shape)) for i in imgs)
+    imgs_comb = Image.fromarray(imgs_comb)
+    imgs_comb.save(f"tempChords/{row_number}.png")    
 
-    image1 = image1.resize((213, 240))
-    image2 = image2.resize((213, 240))
-    img_size = image1.size
-    new_image = Image.new('RGB',(2*img_size[0], img_size[1]), (250,250,250))
-    new_image.paste(image1,(0,0))
-    new_image.paste(image2,(img_size[0],0))
-    new_image.save("outputChords/merged_horizontal_image.png","png")
-    if verboose:
-        new_image.show()
+def joinVertical(number_of_rows, name):
+    imgs = [Image.open(f"tempChords/{elem}.png") for elem in range(number_of_rows)]
+    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+    imgs_comb = np.vstack((np.asarray(i.resize(min_shape)) for i in imgs))
+    imgs_comb = Image.fromarray( imgs_comb)
+    imgs_comb.save(f"outputChords/{name}.png")    
 
-def joinPngVertical(name1, name2, verboose = False):
-    image1 = Image.open(f'chordsImages/{name1}.png')
-    image2 = Image.open(f'chordsImages/{name2}.png')
-
-    image1 = image1.resize((213, 240))
-    image2 = image2.resize((213, 240))
-    img_size = image1.size
-    new_image = Image.new('RGB',(img_size[0], 2*img_size[1]), (250,250,250))
-    new_image.paste(image1,(0,0))
-    new_image.paste(image2,(0,img_size[1]))
-    new_image.save("outputChords/merged_vertical_image.png","png")
-    if verboose:
-        new_image.show()
-    
-joinPngVertical("A","A7sus2",verboose=True)
+chords = ['A', 'A6', 'A7', 'A9']
+for i in range(4):
+    joinHorizontal(chords, i)
+joinVertical(4, "test")
