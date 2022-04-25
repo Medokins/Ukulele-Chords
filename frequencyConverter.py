@@ -1,17 +1,23 @@
 import math
 
-def frequency_to_note(freq):
-    notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+def frequency_to_note(freq, easier_chords=True):
+    if easier_chords:
+        chords = ['Am', 'A',  #A minor A major
+                  'Bm', 'B',  #B minor B major
+                  'Cm', 'C',  #C minor C major
+                  'Dm', 'D',  #D minor D major
+                  'Em', 'E',  #E minor E major
+                  'Fm', 'F',  #F minor F major 
+                  'Gm', 'G']  #G minor G major
 
-    # formula taken from https://en.wikipedia.org/wiki/Piano_key_frequencies
     if freq == 0:
         freq = 0.001
-    note_number = 12 * math.log2(freq / 440) + 49  
-    note_number = round(note_number)
+    chord_number = 12 * math.log2(freq / 440) + 49  
+    chord_number = round(chord_number)
         
-    note = (note_number - 1 ) % len(notes)
-    note = notes[note]
+    chord = (chord_number - 1 ) % len(chords)
+    chord = chords[chord]
     
-    octave = (note_number + 8 ) // len(notes)
+    #octave = (chord_number + 8 ) // len(chords)
     
-    return note, octave
+    return chord #, octave
