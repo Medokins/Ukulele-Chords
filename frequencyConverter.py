@@ -18,6 +18,6 @@ def frequency_to_note(freq, easier_chords=True):
     chord = (chord_number - 1 ) % len(chords)
     chord = chords[chord]
     
-    #octave = (chord_number + 8 ) // len(chords)
+    octave = (chord_number + 8 ) // len(chords)
     
-    return chord #, octave
+    return chord, octave
