@@ -14,6 +14,7 @@ step = 2
 frequency_table = []
 chords = []
 
+[f.unlink() for f in Path("tempChords").glob("*") if f.is_file()] 
 if (len(url) > 0 and len(name) == 0):
     name, length = downloadVideo(url)
     convertToWav(f"music/{name}", f"wav_music/{name}")
