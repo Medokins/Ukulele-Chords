@@ -3,7 +3,7 @@ import numpy as np
 
 def joinHorizontal(chordsArray, row_number):
     imgs = [Image.open(f"chordsImages/{elem}.png") for elem in chordsArray]
-    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+    min_shape = sorted([(np.sum(i.size), i.size) for i in imgs])[0][1]
     imgs_comb = np.hstack(np.asarray(i.resize(min_shape)) for i in imgs)
     imgs_comb = Image.fromarray(imgs_comb)
     imgs_comb.save(f"tempChords/{row_number}.png")    
@@ -18,4 +18,13 @@ def joinVertical(number_of_rows, name, verbose=True):
         imgs_comb.show()
 
 def cutChords(chords, number_in_row):
-    pass
+    allChords = []
+    for i in range(int(np.ceil(len(chords)/number_in_row))):
+        temp = []
+        for j in range(number_in_row):
+            if i*number_in_row + j < len(chords):
+                temp.append(chords[i*number_in_row + j])
+            else:
+                temp.append("0BLANK")
+        allChords.append(temp)
+    return allChords
