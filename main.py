@@ -7,10 +7,11 @@ from createImage import joinHorizontal, joinVertical, cutChords
 
 name = "twenty one pilots House of Gold [OFFICIAL VIDEO]" #if You want to get chords from an existing file
 url = "https://www.youtube.com/watch?v=mDyxykpYeu8&ab_channel=FueledByRamen"
+chords_in_row = 10
+step = 2
+
 frequency_table = []
 chords = []
-
-step = 1
 
 if (len(url) > 0 and len(name) == 0):
     name, length = downloadVideo(url)
@@ -24,13 +25,13 @@ else:
 for i in np.arange(0, int(length) - 1, step):
     frequency = freq(name, i, i+ step)
     frequency_table.append(frequency)
-    chords.append(frequency_to_note(frequency))
+    chords.append(frequency_to_note(frequency)[0])
 
-#najpier pociac chords na 6-akrodowe wiersze i je wrzucic do tego co nizej
+chordsList = cutChords(chords, chords_in_row)
+for _ in chordsList: print(_) 
+for i in range(len(chordsList)): joinHorizontal(chordsList[i], i)
 
-chordsList = cutChords(chords, 6)
+name = name.replace("wav_music/", "")
+name = name.replace(".wav", "")
 
-for i in range(len(chordsList)):
-    joinHorizontal([i], i)
-
-joinVertical(chordsList, name)
+joinVertical(int(np.ceil(len(chords)/chords_in_row)), name)
