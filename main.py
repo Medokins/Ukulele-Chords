@@ -1,5 +1,6 @@
 import librosa
 import numpy as np
+from pathlib import Path
 from getFrequency import freq
 from getVideo import downloadVideo, convertToWav
 from frequencyConverter import frequency_to_note
@@ -35,3 +36,4 @@ name = name.replace("wav_music/", "")
 name = name.replace(".wav", "")
 
 joinVertical(int(np.ceil(len(chords)/chords_in_row)), name)
+[f.unlink() for f in Path("tempChords").glob("*") if f.is_file()] 
